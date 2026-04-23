@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קייטנת כיף - הרשמה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Rubik:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --lavender:      #d2a5d2;
+  --lavender-lt:   #e1c3e1;
+  --lavender-soft: #f0e1f0;
+  --plum:          #690f3c;
+  --plum-dark:     #5a0f3c;
+  --gold:          #f0d296;
+  --gold-soft:     #f7e6c3;
+  --blue:          #d2e1f0;
+  --blue-soft:     #e6eef7;
+  --pink-flower:   #e1a5d2;
+  --pink-soft:     #f0c8e1;
+  --off-white:     #fff0ff;
+
+  --radius:        14px;
+  --shadow:        0 2px 12px rgba(105, 15, 60, 0.08);
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background: var(--lavender);
+  min-height: 100vh;
+  color: var(--plum);
+  padding-bottom: 50px;
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideDown { from{opacity:0;max-height:0} to{opacity:1;max-height:600px} }
+
+/* Header */
+.header { text-align: center; padding: 54px 22px 20px; }
+.header h1 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: clamp(2.8rem, 9vw, 4rem);
+  font-weight: 400;
+  color: var(--plum);
+  line-height: 1.05;
+  margin-bottom: 14px;
+}
+.header .sub {
+  color: var(--plum);
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Info pills */
+.pills {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  justify-content: center;
+  max-width: 580px; margin: 22px auto 0; padding: 0 16px;
+}
+.pill {
+  background: var(--off-white);
+  border-radius: 50px;
+  padding: 6px 15px;
+  font-size: 0.85rem;
+  color: var(--plum);
+  font-weight: 500;
+}
+
+/* Themes */
+.themes {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: center;
+  max-width: 560px; margin: 10px auto 0; padding: 0 16px;
+}
+.theme {
+  background: var(--gold);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 0.82rem;
+  color: var(--plum);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wrap { max-width: 580px; margin: 28px auto 0; padding: 0 14px; }
+
+/* Harshama */
+.harshama { text-align: center; margin-bottom: 14px; }
+.harshama h2 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.9rem;
+  color: var(--plum);
+  font-weight: 400;
+  padding: 0 18px;
+}
+
+/* Price card */
+.price-card {
+  background: var(--off-white);
+  border-radius: var(--radius);
+  text-align: center;
+  padding: 22px 24px 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.price-card .amount {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 400;
+  color: var(--plum);
+  line-height: 1;
+}
+.price-card .note {
+  font-size: 0.88rem;
+  color: var(--plum);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* Cards */
+.card {
+  background: var(--off-white);
+  border-radius: var(--radius);
+  padding: 22px 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.sec {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.15rem;
+  color: var(--plum);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px dashed var(--lavender-lt);
+}
+
+/* Fields */
+.field { margin-bottom: 13px; }
+.field:last-child { margin-bottom: 0; }
+.lbl {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--plum);
+  margin-bottom: 6px;
+}
+.lbl .req { color: var(--plum); font-weight: 700; }
+
+input[type=text], input[type=tel], select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--lavender-lt);
+  border-radius: 10px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.94rem;
+  color: var(--plum);
+  background: white;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  direction: rtl;
+}
+/* Phone input as LTR since phone numbers are written that way */
+input[type=tel] { direction: ltr; text-align: right; }
+input[type=tel]::placeholder { text-align: right; }
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--plum);
+  box-shadow: 0 0 0 3px rgba(105, 15, 60, 0.1);
+}
+input::placeholder, textarea::placeholder { color: rgba(105, 15, 60, 0.4); }
+textarea { resize: vertical; min-height: 65px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Parent 2 toggle */
+.parent2-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--lavender-soft);
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--plum);
+  transition: background .15s;
+}
+.parent2-toggle:hover { background: var(--lavender-lt); }
+.parent2-toggle input[type=checkbox] {
+  accent-color: var(--plum);
+  width: 16px; height: 16px;
+  cursor: pointer;
+}
+.parent2-fields {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--lavender-lt);
+  animation: slideDown 0.3s ease-out;
+}
+.parent2-fields.vis { display: block; }
+
+/* Discount options */
+.disc-opts { display: flex; flex-direction: column; gap: 8px; }
+.disc-opt {
+  border: 1.5px solid var(--lavender-lt);
+  border-radius: 11px;
+  padding: 13px 15px;
+  cursor: pointer;
+  background: white;
+  display: flex; align-items: flex-start; gap: 10px;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+}
+.disc-opt:hover { border-color: var(--plum); }
+.disc-opt.on {
+  border-color: var(--plum);
+  background: var(--off-white);
+}
+.disc-opt input[type=checkbox] {
+  width: 16px; height: 16px;
+  accent-color: var(--plum);
+  margin-top: 3px; flex-shrink: 0; cursor: pointer;
+}
+.opt-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--plum);
+}
+.opt-desc {
+  font-size: 0.82rem;
+  color: var(--plum);
+  opacity: 0.75;
+  margin-top: 3px;
+  line-height: 1.55;
+}
+.opt-note {
+  font-size: 0.78rem;
+  color: var(--plum);
+  opacity: 0.7;
+  margin-top: 4px;
+  font-style: italic;
+  line-height: 1.5;
+}
+.badge {
+  margin-right: auto; flex-shrink: 0; align-self: center;
+  background: var(--plum);
+  color: var(--off-white);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.badge.plain {
+  background: var(--gold-soft);
+  color: var(--plum);
+}
+
+/* Sub fields */
+.sub-f {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--lavender-lt);
+  display: none;
+}
+.sub-f.vis { display: block; }
+
+/* Hosting disclaimer */
+.hosting-disclaimer {
+  background: var(--gold-soft);
+  border: 1.5px solid var(--gold);
+  border-radius: 11px;
+  padding: 13px 16px;
+  margin-bottom: 13px;
+  text-align: center;
+  animation: slideDown 0.3s ease-out;
+}
+.hosting-disclaimer p {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--plum);
+  line-height: 1.5;
+}
+
+/* Day options */
+.day-opts { display: flex; flex-direction: column; gap: 6px; }
+.day-opt-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--lavender-lt); border-radius: 9px;
+  cursor: pointer;
+  background: white;
+  font-size: 0.86rem;
+  transition: border-color .15s;
+}
+.day-opt-row:hover { border-color: var(--plum); }
+.day-opt-row input[type=checkbox] {
+  accent-color: var(--plum);
+  width: 15px; height: 15px; flex-shrink: 0; cursor: pointer;
+}
+.day-name { font-weight: 600; color: var(--plum); }
+.day-theme { color: var(--plum); opacity: 0.65; font-size: 0.76rem; margin-right: 2px; }
+.day-price {
+  margin-right: auto;
+  font-size: 0.76rem;
+  color: var(--plum);
+  font-weight: 600;
+  background: var(--gold-soft);
+  padding: 2px 8px;
+  border-radius: 50px;
+}
+
+/* Higher-discount applied notice */
+.higher-applied {
+  background: var(--blue-soft);
+  border-right: 3px solid var(--plum);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--plum);
+  font-weight: 600;
+  line-height: 1.5;
+  display: none;
+}
+.higher-applied.vis { display: block; animation: slideDown 0.3s ease-out; }
+
+/* Price summary */
+.p-sum {
+  background: var(--blue-soft);
+  border-radius: 10px;
+  padding: 13px 15px;
+  margin-top: 13px;
+  display: none;
+}
+.p-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.86rem;
+  color: var(--plum);
+  margin-bottom: 4px;
+}
+.p-total {
+  display: flex; justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--plum);
+  border-top: 1px solid var(--lavender-lt);
+  margin-top: 7px;
+  padding-top: 8px;
+}
+.p-disc { color: var(--plum); font-weight: 600; }
+
+/* Payment blurb */
+.payment-blurb {
+  background: var(--blue-soft);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.payment-blurb h3 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.2rem;
+  color: var(--plum);
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+.payment-blurb p {
+  font-size: 0.93rem;
+  color: var(--plum);
+  line-height: 1.6;
+  font-weight: 400;
+}
+.payment-blurb strong { font-weight: 700; }
+
+/* Submit */
+.btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--plum);
+  color: var(--off-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+.btn:hover { background: var(--plum-dark); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+/* Footer */
+.foot {
+  text-align: center;
+  color: var(--plum);
+  font-size: 0.85rem;
+  margin-top: 14px;
+  font-weight: 500;
+}
+/* Force the phone number in footer to display LTR */
+.foot bdi { direction: ltr; unicode-bidi: embed; }
+
+/* Success */
+#ok {
+  display: none;
+  text-align: center;
+  padding: 48px 26px;
+  background: var(--off-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+#ok.show { display: block; animation: fadeIn 0.4s ease; }
+#ok .icon {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 2.6rem;
+  color: var(--plum);
+  margin-bottom: 14px;
+  line-height: 1;
+}
+#ok h2 {
+  font-family: 'Varela Round', sans-serif;
+  font-weight: 400;
+  font-size: 1.55rem;
+  color: var(--plum);
+  margin-bottom: 12px;
+}
+#ok p {
+  color: var(--plum);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  max-width: 420px;
+  margin: 0 auto;
+}
+#ok strong { font-weight: 700; }
+
+@media (max-width: 460px) {
+  .two { grid-template-columns: 1fr; }
+  .card { padding: 19px 16px; }
+  .header { padding: 44px 20px 18px; }
+  .harshama h2 { font-size: 1.65rem; }
+  .hosting-disclaimer p { font-size: 0.95rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>קייטנת כיף</h1>
+  <p class="sub">שבוע מלא בכיף, בישול, אומנות, ומלא חברות חדשות<bdi>!</bdi></p>
+</div>
+
+<div class="pills">
+  <span class="pill">3-7 באוגוסט</span>
+  <span class="pill">9:00 - 3:00</span>
+  <span class="pill">אזור סאניוויל</span>
+  <span class="pill">עולות לגן חובה עד כיתה ג'</span>
+</div>
+
+<div class="themes">
+  <span class="theme">👗 יום עיצוב</span>
+  <span class="theme">🎬 יום קולנוע</span>
+  <span class="theme">👩‍🍳 יום שף</span>
+  <span class="theme">🔬 יום מדע</span>
+  <span class="theme">🧜‍♀️ יום בת ים</span>
+</div>
+
+<div class="wrap">
+  <div id="form-wrap">
+
+    <div class="harshama"><h2>הרשמה</h2></div>
+
+    <div class="price-card">
+      <div class="amount">$325</div>
+      <div class="note">לשבוע המלא של הקייטנה</div>
+    </div>
+
+    <form id="form" action="https://formspree.io/f/mzdyvney" method="POST" novalidate>
+      <!-- honeypot to deter spam bots -->
+      <p style="display:none"><label>Don't fill this out: <input name="_gotcha"></label></p>
+      <!-- custom subject line in the email -->
+      <input type="hidden" name="_subject" value="🌸 הרשמה חדשה לקייטנת כיף">
+
+      <!-- Child -->
+      <div class="card">
+        <div class="sec">פרטי הילדה</div>
+        <div class="two">
+          <div class="field">
+            <label class="lbl">שם הילדה <span class="req">*</span></label>
+            <input type="text" name="c1_name" required placeholder="שם פרטי">
+          </div>
+          <div class="field">
+            <label class="lbl">לאיזו כיתה הילדה עולה? <span class="req">*</span></label>
+            <select name="c1_grade" required>
+              <option value="">בחרי...</option>
+              <option>עולה לגן חובה (K)</option>
+              <option>עולה לכיתה א</option>
+              <option>עולה לכיתה ב</option>
+              <option>עולה לכיתה ג</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">אלרגיות</label>
+          <input type="text" name="c1_allergy" placeholder="אם אין, השאירי ריק">
+        </div>
+      </div>
+
+      <!-- Parent -->
+      <div class="card">
+        <div class="sec">פרטי ההורה</div>
+        <div class="two">
+          <div class="field">
+            <label class="lbl">שם <span class="req">*</span></label>
+            <input type="text" name="parent_name" required placeholder="שם פרטי ומשפחה">
+          </div>
+          <div class="field">
+            <label class="lbl">טלפון <span class="req">*</span></label>
+            <input type="tel" name="phone" required placeholder="000-000-0000">
+          </div>
+        </div>
+
+        <label class="parent2-toggle" onclick="toggleParent2(event)">
+          <input type="checkbox" id="p2check">
+          <span>+ הוספת פרטי הורה שני</span>
+        </label>
+
+        <div class="parent2-fields" id="p2fields">
+          <div class="two">
+            <div class="field">
+              <label class="lbl">שם הורה שני</label>
+              <input type="text" name="parent2_name" placeholder="שם פרטי ומשפחה">
+            </div>
+            <div class="field">
+              <label class="lbl">טלפון הורה שני</label>
+              <input type="tel" name="parent2_phone" placeholder="000-000-0000">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discounts -->
+      <div class="card">
+        <div class="sec">הנחות</div>
+        <p style="font-size:0.82rem;color:var(--plum);opacity:0.75;margin-bottom:13px;line-height:1.5;">
+          במקרה של בחירה של שני האופציות - ההנחה הגבוהה יותר תיבחר
+        </p>
+
+        <div class="disc-opts">
+
+          <div class="disc-opt" id="d-two" onclick="toggleDisc(event, this, 'two')">
+            <input type="checkbox" name="disc_two" value="yes">
+            <div style="flex:1">
+              <div class="opt-title">רישום עבור שתי אחיות</div>
+              <div class="opt-desc">הרשמת שתי ילדות יחד, $20 הנחה על כל הרשמה</div>
+              <div class="opt-note">* ההנחה לשתי ילדות מיועדת רק לאחיות, לא לחברות</div>
+              <div class="sub-f" id="sf-two">
+                <div class="field" style="margin-top:2px;">
+                  <label class="lbl">שם האחות <span class="req">*</span></label>
+                  <input type="text" name="c2_name" placeholder="שם פרטי">
+                </div>
+                <div class="two">
+                  <div class="field">
+                    <label class="lbl">לאיזו כיתה היא עולה?</label>
+                    <select name="c2_grade">
+                      <option value="">בחרי...</option>
+                      <option>עולה לגן חובה (K)</option>
+                      <option>עולה לכיתה א</option>
+                      <option>עולה לכיתה ב</option>
+                      <option>עולה לכיתה ג</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="lbl">אלרגיות</label>
+                    <input type="text" name="c2_allergy" placeholder="אם אין, ריק">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="badge">20$- לכל ילדה</span>
+          </div>
+
+          <div class="disc-opt" id="d-host" onclick="toggleDisc(event, this, 'host')">
+            <input type="checkbox" name="disc_host" value="yes">
+            <div style="flex:1">
+              <div class="opt-title">אירוח יום קייטנה</div>
+              <div class="opt-desc">מארחות אצלכן יום קייטנה בחצר? 25% הנחה על כל יום שתארחו (כ-$16 ליום)</div>
+              <div class="sub-f" id="sf-host">
+
+                <div class="hosting-disclaimer">
+                  <p>אנא לסגור את יום/ימי האירוח לפני מילוי הטופס</p>
+                </div>
+
+                <div class="field" style="margin-top:2px;">
+                  <label class="lbl">באיזה ימים תרצו לארח?</label>
+                  <div class="day-opts">
+                    <label class="day-opt-row">
+                      <input type="checkbox" name="hday" value="sun">
+                      <span class="day-name">יום ראשון</span><span class="day-theme">יום עיצוב 👗</span>
+                      <span class="day-price">16$ הנחה</span>
+                    </label>
+                    <label class="day-opt-row">
+                      <input type="checkbox" name="hday" value="mon">
+                      <span class="day-name">יום שני</span><span class="day-theme">יום קולנוע 🎬</span>
+                      <span class="day-price">16$ הנחה</span>
+                    </label>
+                    <label class="day-opt-row">
+                      <input type="checkbox" name="hday" value="tue">
+                      <span class="day-name">יום שלישי</span><span class="day-theme">יום שף 👩‍🍳</span>
+                      <span class="day-price">16$ הנחה</span>
+                    </label>
+                    <label class="day-opt-row">
+                      <input type="checkbox" name="hday" value="wed">
+                      <span class="day-name">יום רביעי</span><span class="day-theme">יום מדע 🔬</span>
+                      <span class="day-price">16$ הנחה</span>
+                    </label>
+                    <label class="day-opt-row">
+                      <input type="checkbox" name="hday" value="thu">
+                      <span class="day-name">יום חמישי</span><span class="day-theme">יום בת ים 🧜‍♀️</span>
+                      <span class="day-price">16$ הנחה</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="badge">25% ליום</span>
+          </div>
+
+        </div>
+
+        <div class="higher-applied" id="higher-notice">
+          בחרת בשתי ההנחות <bdi>—</bdi> מיושמת ההנחה הגבוהה יותר
+        </div>
+
+        <div class="p-sum" id="psum">
+          <div class="p-row"><span>מחיר בסיס</span><span id="base-line">$325</span></div>
+          <div class="p-row p-disc" id="disc-row"></div>
+          <div class="p-total"><span>סה"כ לתשלום</span><span id="final">$325</span></div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="card">
+        <div class="sec">שאלות והערות</div>
+        <textarea name="notes" placeholder="כל שאלה או הערה בברכה"></textarea>
+      </div>
+
+      <!-- Payment -->
+      <div class="payment-blurb">
+        <h3>תשלום</h3>
+        <p>
+          לאחר מילוי הטופס <strong>ארבל</strong> תיצור קשר איתכם תוך 12 שעות עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
+        </p>
+      </div>
+
+      <input type="hidden" name="computed_total" id="computed_total" value="$325">
+      <input type="hidden" name="discount_applied" id="discount_applied" value="none">
+
+      <button type="submit" class="btn">שליחת הרשמה</button>
+    </form>
+
+    <p class="foot">לפרטים נוספים: <bdi>(341) 226-9724</bdi></p>
+
+    <div id="ok">
+      <div class="icon">✿</div>
+      <h2>ההרשמה נשלחה בהצלחה<bdi>!</bdi></h2>
+      <p>
+        <strong>ארבל</strong> תיצור איתכם קשר תוך 12 שעות עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DAILY = 325 / 5;
+
+function toggleParent2(e) {
+  // prevent double-toggle when clicking the checkbox itself
+  if (e.target.tagName === 'INPUT') {
+    // let native behavior run
+  } else {
+    e.preventDefault();
+    const cb = document.getElementById('p2check');
+    cb.checked = !cb.checked;
+  }
+  const checked = document.getElementById('p2check').checked;
+  document.getElementById('p2fields').classList.toggle('vis', checked);
+  if (!checked) {
+    document.querySelector('[name=parent2_name]').value = '';
+    document.querySelector('[name=parent2_phone]').value = '';
+  }
+}
+
+function toggleDisc(e, card, val) {
+  // Ignore clicks that happened inside the expanded sub-form
+  // (day checkboxes, second-sister fields, etc.) — they shouldn't toggle the outer discount
+  if (e.target.closest('.sub-f')) {
+    return;
+  }
+  // if click is on the input itself, let it toggle naturally; otherwise toggle manually
+  if (e.target.tagName !== 'INPUT') {
+    e.preventDefault();
+    const cb = card.querySelector('input[type=checkbox]');
+    cb.checked = !cb.checked;
+  }
+  const cb = card.querySelector('input[type=checkbox]');
+  card.classList.toggle('on', cb.checked);
+  document.getElementById('sf-' + val).classList.toggle('vis', cb.checked);
+
+  if (!cb.checked) {
+    // Clean up that section's fields
+    if (val === 'two') {
+      document.querySelector('[name=c2_name]').value = '';
+      document.querySelector('[name=c2_grade]').value = '';
+      document.querySelector('[name=c2_allergy]').value = '';
+    }
+    if (val === 'host') {
+      document.querySelectorAll('input[name=hday]').forEach(c => c.checked = false);
+    }
+  }
+  updatePrice();
+}
+
+function updatePrice() {
+  const twoOn  = document.querySelector('input[name=disc_two]').checked;
+  const hostOn = document.querySelector('input[name=disc_host]').checked;
+  const days   = document.querySelectorAll('input[name=hday]:checked').length;
+
+  const psum   = document.getElementById('psum');
+  const dr     = document.getElementById('disc-row');
+  const fin    = document.getElementById('final');
+  const base   = document.getElementById('base-line');
+  const hid    = document.getElementById('computed_total');
+  const dapp   = document.getElementById('discount_applied');
+  const notice = document.getElementById('higher-notice');
+
+  // No discounts selected
+  if (!twoOn && !hostOn) {
+    psum.style.display = 'none';
+    notice.classList.remove('vis');
+    hid.value = '$325';
+    dapp.value = 'none';
+    return;
+  }
+
+  // Compute each discount amount
+  const twoDiscAmt  = twoOn ? 40 : 0;   // $20 x 2 kids
+  const hostDiscAmt = hostOn ? Math.round(days * DAILY * 0.25) : 0;
+
+  // Show "higher applied" notice only if both are actually contributing
+  const bothSelected = twoOn && hostOn && days > 0;
+  notice.classList.toggle('vis', bothSelected);
+
+  psum.style.display = 'block';
+
+  // If both selected, pick the higher one
+  if (bothSelected) {
+    if (twoDiscAmt >= hostDiscAmt) {
+      // Two-sisters wins
+      base.textContent = '$650 (שתי ילדות)';
+      dr.innerHTML = '<span>הנחת שתי אחיות ($20 לכל אחת)</span><span>−$40</span>';
+      fin.textContent = '$610';
+      hid.value = '$610';
+      dapp.value = 'two_sisters';
+    } else {
+      // Hosting wins — but two girls registered, so base is $650
+      base.textContent = '$650 (שתי ילדות)';
+      dr.innerHTML = `<span>הנחת אירוח (${days} יום)</span><span>−$${hostDiscAmt}</span>`;
+      fin.textContent = `$${650 - hostDiscAmt}`;
+      hid.value = `$${650 - hostDiscAmt}`;
+      dapp.value = 'hosting';
+    }
+    return;
+  }
+
+  // Only two-sisters selected
+  if (twoOn && !hostOn) {
+    base.textContent = '$650 (שתי ילדות)';
+    dr.innerHTML = '<span>הנחת שתי אחיות ($20 לכל אחת)</span><span>−$40</span>';
+    fin.textContent = '$610';
+    hid.value = '$610';
+    dapp.value = 'two_sisters';
+    return;
+  }
+
+  // Only hosting selected
+  if (hostOn && !twoOn) {
+    base.textContent = '$325';
+    if (days === 0) {
+      dr.innerHTML = '<span>הנחת אירוח</span><span>בחרי ימים</span>';
+      fin.textContent = '$325';
+      hid.value = '$325';
+    } else {
+      dr.innerHTML = `<span>הנחת אירוח (${days} יום)</span><span>−$${hostDiscAmt}</span>`;
+      fin.textContent = `$${325 - hostDiscAmt}`;
+      hid.value = `$${325 - hostDiscAmt}`;
+    }
+    dapp.value = 'hosting';
+    return;
+  }
+
+  // Edge case: two-sisters ON + hosting ON but 0 days — treat as two-sisters only
+  if (twoOn && hostOn && days === 0) {
+    base.textContent = '$650 (שתי ילדות)';
+    dr.innerHTML = '<span>הנחת שתי אחיות ($20 לכל אחת)</span><span>−$40</span>';
+    fin.textContent = '$610';
+    hid.value = '$610';
+    dapp.value = 'two_sisters';
+  }
+}
+
+document.querySelectorAll('input[name=hday]').forEach(cb =>
+  cb.addEventListener('change', updatePrice)
+);
+
+// Native change events on discount checkboxes (when clicked directly)
+document.querySelectorAll('input[name=disc_two], input[name=disc_host]').forEach(cb => {
+  cb.addEventListener('change', (e) => {
+    // The parent card click handler also fires, so we rely on that for UI sync.
+    // But in case it doesn't (e.g., keyboard nav), handle directly:
+    const card = e.target.closest('.disc-opt');
+    const val = card.id === 'd-two' ? 'two' : 'host';
+    card.classList.toggle('on', e.target.checked);
+    document.getElementById('sf-' + val).classList.toggle('vis', e.target.checked);
+    if (!e.target.checked && val === 'host') {
+      document.querySelectorAll('input[name=hday]').forEach(c => c.checked = false);
+    }
+    updatePrice();
+  });
+});
+
+// Parent 2 checkbox native handler
+document.getElementById('p2check').addEventListener('change', (e) => {
+  document.getElementById('p2fields').classList.toggle('vis', e.target.checked);
+  if (!e.target.checked) {
+    document.querySelector('[name=parent2_name]').value = '';
+    document.querySelector('[name=parent2_phone]').value = '';
+  }
+});
+
+document.getElementById('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let ok = true;
+  this.querySelectorAll('[required]').forEach(f => {
+    f.style.borderColor = '';
+    if (!f.value.trim()) { f.style.borderColor = '#690f3c'; ok = false; }
+  });
+  const twoOn  = this.querySelector('input[name=disc_two]').checked;
+  const hostOn = this.querySelector('input[name=disc_host]').checked;
+  if (twoOn) {
+    const c2 = this.querySelector('[name=c2_name]');
+    if (!c2.value.trim()) { c2.style.borderColor = '#690f3c'; ok = false; }
+  }
+  if (hostOn && !document.querySelector('input[name=hday]:checked')) {
+    alert('אנא בחרי לפחות יום אחד לאירוח'); ok = false;
+  }
+  if (!ok) return;
+
+  const formData = new FormData(this);
+  const showSuccess = () => {
+    this.style.display = 'none';
+    document.querySelector('.price-card').style.display = 'none';
+    document.querySelector('.harshama').style.display = 'none';
+    document.querySelector('.foot').style.display = 'none';
+    document.getElementById('ok').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Submit to Formspree via AJAX — keeps the user on the page so we can show our success message
+  fetch(this.action, {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      showSuccess();
+    } else {
+      response.json().then(data => {
+        const err = (data.errors && data.errors.map(e => e.message).join(', ')) || 'שגיאה בשליחה';
+        alert('אירעה שגיאה בשליחת הטופס: ' + err + '\n\nאנא צרו קשר ישירות עם ארבל: (341) 226-9724');
+      }).catch(() => {
+        alert('אירעה שגיאה בשליחת הטופס. אנא צרו קשר ישירות עם ארבל: (341) 226-9724');
+      });
+    }
+  }).catch((err) => {
+    console.warn('Network error:', err);
+    alert('אירעה שגיאה בחיבור לאינטרנט. אנא בדקו את החיבור ונסו שוב, או צרו קשר ישירות עם ארבל: (341) 226-9724');
+  });
+});
+</script>
+</body>
+</html>
