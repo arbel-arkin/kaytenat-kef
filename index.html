@@ -500,10 +500,10 @@ textarea { resize: vertical; min-height: 65px; }
         <div class="two">
           <div class="field">
             <label class="lbl">שם הילדה <span class="req">*</span></label>
-            <input type="text" name="c1_name" required placeholder="שם פרטי">
+            <input type="text" name="c1_name" required>
           </div>
           <div class="field">
-            <label class="lbl">לאיזו כיתה הילדה עולה? <span class="req">*</span></label>
+            <label class="lbl">לאיזו כיתה היא עולה? <span class="req">*</span></label>
             <select name="c1_grade" required>
               <option value="">בחרי...</option>
               <option>עולה לגן חובה (K)</option>
@@ -515,7 +515,7 @@ textarea { resize: vertical; min-height: 65px; }
         </div>
         <div class="field">
           <label class="lbl">אלרגיות</label>
-          <input type="text" name="c1_allergy" placeholder="אם אין, השאירי ריק">
+          <input type="text" name="c1_allergy">
         </div>
       </div>
 
@@ -525,28 +525,28 @@ textarea { resize: vertical; min-height: 65px; }
         <div class="two">
           <div class="field">
             <label class="lbl">שם <span class="req">*</span></label>
-            <input type="text" name="parent_name" required placeholder="שם פרטי ומשפחה">
+            <input type="text" name="parent_name" required>
           </div>
           <div class="field">
             <label class="lbl">טלפון <span class="req">*</span></label>
-            <input type="tel" name="phone" required placeholder="000-000-0000">
+            <input type="tel" name="phone" required>
           </div>
         </div>
 
         <label class="parent2-toggle" onclick="toggleParent2(event)">
           <input type="checkbox" id="p2check">
-          <span>+ הוספת פרטי הורה שני</span>
+          <span>הוסף הורה נוסף</span>
         </label>
 
         <div class="parent2-fields" id="p2fields">
           <div class="two">
             <div class="field">
-              <label class="lbl">שם הורה שני</label>
-              <input type="text" name="parent2_name" placeholder="שם פרטי ומשפחה">
+              <label class="lbl">שם</label>
+              <input type="text" name="parent2_name">
             </div>
             <div class="field">
-              <label class="lbl">טלפון הורה שני</label>
-              <input type="tel" name="parent2_phone" placeholder="000-000-0000">
+              <label class="lbl">טלפון</label>
+              <input type="tel" name="parent2_phone">
             </div>
           </div>
         </div>
@@ -558,61 +558,69 @@ textarea { resize: vertical; min-height: 65px; }
 
         <div class="disc-opts">
 
-          <!-- Early bird — auto-applied -->
-          <div class="disc-opt on" style="background:var(--gold-soft);border-color:var(--plum);cursor:default;">
-            <input type="checkbox" name="disc_early" value="yes" checked style="pointer-events:none;accent-color:var(--plum);width:16px;height:16px;">
+          <div class="disc-opt" id="d-two" onclick="toggleDisc(event, this, 'two')">
+            <input type="checkbox" name="disc_two" value="yes">
             <div style="flex:1">
-              <div class="opt-title">הנחת הרשמה מוקדמת 🌸</div>
-              <div class="opt-desc">הרשמה לפני ה-17 למאי — $40 הנחה</div>
+              <div class="opt-title">להירשם עם חברה/אחות</div>
+              <div class="sub-f" id="sf-two">
+                <div class="field" style="margin-top:10px;">
+                  <label class="lbl">שם</label>
+                  <input type="text" name="c2_name">
+                </div>
+              </div>
             </div>
-            <span class="badge">-$40</span>
+            <span class="badge">-$20</span>
           </div>
 
-          <!-- Sister discount — grayed out -->
-          <div class="disc-opt" style="opacity:0.42;pointer-events:none;cursor:default;">
-            <input type="checkbox" name="disc_two" value="yes" disabled style="width:16px;height:16px;">
-            <div style="flex:1">
-              <div class="opt-title">רישום עבור שתי אחיות</div>
-              <div class="opt-desc">הרשמת שתי ילדות יחד, $20 הנחה על כל הרשמה</div>
-            </div>
-            <span class="badge plain">20$- לכל ילדה</span>
-          </div>
-
-          <!-- Hosting discount — grayed out -->
-          <div class="disc-opt" style="opacity:0.42;pointer-events:none;cursor:default;">
-            <input type="checkbox" name="disc_host" value="yes" disabled style="width:16px;height:16px;">
+          <div class="disc-opt" id="d-host" onclick="toggleDisc(event, this, 'host')">
+            <input type="checkbox" name="disc_host" value="yes">
             <div style="flex:1">
               <div class="opt-title">אירוח יום קייטנה</div>
               <div class="opt-desc">מארחות אצלכן יום קייטנה בחצר? 25% הנחה על כל יום שתארחו (כ-$16 ליום)</div>
+              <div class="sub-f" id="sf-host">
+                <div class="hosting-disclaimer" style="margin-top:10px;">
+                  <p>אנא לסגור את יום/ימי האירוח לפני מילוי הטופס</p>
+                </div>
+                <div class="field" style="margin-top:2px;">
+                  <label class="lbl">באיזה ימים תרצו לארח?</label>
+                  <div class="day-opts">
+                    <label class="day-opt-row"><input type="checkbox" name="hday" value="sun"><span class="day-name">יום ראשון</span><span class="day-theme">יום עיצוב 👗</span><span class="day-price">16$ הנחה</span></label>
+                    <label class="day-opt-row"><input type="checkbox" name="hday" value="mon"><span class="day-name">יום שני</span><span class="day-theme">יום קולנוע 🎬</span><span class="day-price">16$ הנחה</span></label>
+                    <label class="day-opt-row"><input type="checkbox" name="hday" value="tue"><span class="day-name">יום שלישי</span><span class="day-theme">יום שף 👩‍🍳</span><span class="day-price">16$ הנחה</span></label>
+                    <label class="day-opt-row"><input type="checkbox" name="hday" value="wed"><span class="day-name">יום רביעי</span><span class="day-theme">יום מדע 🔬</span><span class="day-price">16$ הנחה</span></label>
+                    <label class="day-opt-row"><input type="checkbox" name="hday" value="thu"><span class="day-name">יום חמישי</span><span class="day-theme">יום בת הים 🧜‍♀️</span><span class="day-price">16$ הנחה</span></label>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span class="badge plain">25% ליום</span>
+            <span class="badge">25% ליום</span>
           </div>
 
         </div>
 
-        <div class="p-sum" id="psum" style="display:block;">
+        <div class="p-sum" id="psum">
           <div class="p-row"><span>מחיר בסיס</span><span>$325</span></div>
-          <div class="p-row p-disc"><span>הנחת הרשמה מוקדמת</span><span>−$40</span></div>
-          <div class="p-total"><span>סה"כ לתשלום</span><span>$285</span></div>
+          <div id="disc-lines"></div>
+          <div class="p-total"><span>סה"כ לתשלום</span><span id="final">$325</span></div>
         </div>
       </div>
 
       <!-- Notes -->
       <div class="card">
-        <div class="sec">שאלות והערות</div>
-        <textarea name="notes" placeholder="כל שאלה או הערה בברכה"></textarea>
+        <div class="sec">שאלות</div>
+        <textarea name="notes"></textarea>
       </div>
 
       <!-- Payment -->
       <div class="payment-blurb">
         <h3>תשלום</h3>
         <p>
-          לאחר מילוי הטופס <strong>ארבל</strong> תיצור קשר איתכם תוך 24 שעות עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
+          לאחר מילוי הטופס <strong>ארבל</strong> תיצור קשר איתכם עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
         </p>
       </div>
 
-      <input type="hidden" name="computed_total" id="computed_total" value="$285">
-      <input type="hidden" name="discount_applied" id="discount_applied" value="early_bird">
+      <input type="hidden" name="computed_total" id="computed_total" value="$325">
+      <input type="hidden" name="discount_applied" id="discount_applied" value="none">
 
       <button type="submit" class="btn">שליחת הרשמה</button>
     </form>
@@ -623,7 +631,7 @@ textarea { resize: vertical; min-height: 65px; }
       <div class="icon">✿</div>
       <h2>ההרשמה נשלחה בהצלחה<bdi>!</bdi></h2>
       <p>
-        <strong>ארבל</strong> תיצור איתכם קשר תוך 24 שעות עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
+        <strong>ארבל</strong> תיצור איתכם קשר עם פרטי התשלום כדי להשלים את ההרשמה לקייטנה.
       </p>
     </div>
 
@@ -631,6 +639,71 @@ textarea { resize: vertical; min-height: 65px; }
 </div>
 
 <script>
+const DAILY = 325 / 5;
+
+function toggleDisc(e, card, val) {
+  if (e.target.closest('.sub-f')) return;
+  if (e.target.tagName !== 'INPUT') {
+    e.preventDefault();
+    const cb = card.querySelector('input[type=checkbox]');
+    cb.checked = !cb.checked;
+  }
+  const cb = card.querySelector('input[type=checkbox]');
+  card.classList.toggle('on', cb.checked);
+  const sf = document.getElementById('sf-' + val);
+  if (sf) sf.classList.toggle('vis', cb.checked);
+  if (!cb.checked) {
+    if (val === 'two') { const f = document.querySelector('[name=c2_name]'); if (f) f.value = ''; }
+    if (val === 'host') document.querySelectorAll('input[name=hday]').forEach(c => c.checked = false);
+  }
+  updatePrice();
+}
+
+function updatePrice() {
+  const twoOn  = document.querySelector('input[name=disc_two]').checked;
+  const hostOn = document.querySelector('input[name=disc_host]').checked;
+  const days   = document.querySelectorAll('input[name=hday]:checked').length;
+  const psum   = document.getElementById('psum');
+  const hid    = document.getElementById('computed_total');
+  const dapp   = document.getElementById('discount_applied');
+
+  if (!twoOn && !hostOn) {
+    psum.style.display = 'none';
+    hid.value = '$325'; dapp.value = 'none'; return;
+  }
+  psum.style.display = 'block';
+
+  let total = 325; let lines = '';
+  if (twoOn) {
+    total -= 20;
+    lines += '<div class="p-row p-disc"><span>להירשם עם חברה/אחות</span><span>−$20</span></div>';
+  }
+  if (hostOn && days > 0) {
+    const d = Math.round(days * DAILY * 0.25);
+    total -= d;
+    lines += `<div class="p-row p-disc"><span>הנחת אירוח (${days} יום)</span><span>−$${d}</span></div>`;
+  } else if (hostOn && days === 0) {
+    lines += '<div class="p-row p-disc"><span>הנחת אירוח</span><span>בחרי ימים</span></div>';
+  }
+  document.getElementById('disc-lines').innerHTML = lines;
+  document.getElementById('final').textContent = '$' + total;
+  hid.value = '$' + total;
+  dapp.value = twoOn && hostOn ? 'both' : twoOn ? 'friend_sister' : 'hosting';
+}
+
+document.querySelectorAll('input[name=hday]').forEach(cb => cb.addEventListener('change', updatePrice));
+document.querySelectorAll('input[name=disc_two], input[name=disc_host]').forEach(cb => {
+  cb.addEventListener('change', (e) => {
+    const card = e.target.closest('.disc-opt');
+    const val  = card.id === 'd-two' ? 'two' : 'host';
+    card.classList.toggle('on', e.target.checked);
+    const sf = document.getElementById('sf-' + val);
+    if (sf) sf.classList.toggle('vis', e.target.checked);
+    if (!e.target.checked && val === 'host') document.querySelectorAll('input[name=hday]').forEach(c => c.checked = false);
+    updatePrice();
+  });
+});
+
 function toggleParent2(e) {
   if (e.target.tagName !== 'INPUT') {
     e.preventDefault();
