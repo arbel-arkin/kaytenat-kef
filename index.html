@@ -564,12 +564,20 @@ textarea { resize: vertical; min-height: 65px; }
               <div class="opt-title">להירשם עם חברה/אחות</div>
               <div class="sub-f" id="sf-two">
                 <div class="field" style="margin-top:10px;">
+                  <label class="lbl">אחות או חברה?</label>
+                  <select name="friend_type" id="friend_type" onchange="updatePrice()">
+                    <option value="">בחרי...</option>
+                    <option value="sister">אחות — $610 יחד</option>
+                    <option value="friend">חברה — $305 כל אחת</option>
+                  </select>
+                </div>
+                <div class="field" style="margin-top:8px;">
                   <label class="lbl">שם</label>
                   <input type="text" name="c2_name">
                 </div>
               </div>
             </div>
-            <span class="badge">-$20</span>
+            <span class="badge" id="friend-badge">-$20</span>
           </div>
 
           <div class="disc-opt" id="d-host" onclick="toggleDisc(event, this, 'host')">
@@ -599,7 +607,7 @@ textarea { resize: vertical; min-height: 65px; }
         </div>
 
         <div class="p-sum" id="psum">
-          <div class="p-row"><span>מחיר בסיס</span><span>$325</span></div>
+          <div class="p-row"><span>מחיר בסיס</span><span id="base-line">$325</span></div>
           <div id="disc-lines"></div>
           <div class="p-total"><span>סה"כ לתשלום</span><span id="final">$325</span></div>
         </div>
@@ -653,19 +661,28 @@ function toggleDisc(e, card, val) {
   const sf = document.getElementById('sf-' + val);
   if (sf) sf.classList.toggle('vis', cb.checked);
   if (!cb.checked) {
-    if (val === 'two') { const f = document.querySelector('[name=c2_name]'); if (f) f.value = ''; }
+    if (val === 'two') {
+      const f = document.querySelector('[name=c2_name]'); if (f) f.value = '';
+      const ft = document.getElementById('friend_type'); if (ft) { ft.value = ''; }
+      const badge = document.getElementById('friend-badge'); if (badge) badge.textContent = '-$20';
+      const bl = document.getElementById('base-line'); if (bl) bl.textContent = '$325';
+    }
     if (val === 'host') document.querySelectorAll('input[name=hday]').forEach(c => c.checked = false);
   }
   updatePrice();
 }
 
 function updatePrice() {
-  const twoOn  = document.querySelector('input[name=disc_two]').checked;
-  const hostOn = document.querySelector('input[name=disc_host]').checked;
-  const days   = document.querySelectorAll('input[name=hday]:checked').length;
-  const psum   = document.getElementById('psum');
-  const hid    = document.getElementById('computed_total');
-  const dapp   = document.getElementById('discount_applied');
+  const twoOn     = document.querySelector('input[name=disc_two]').checked;
+  const hostOn    = document.querySelector('input[name=disc_host]').checked;
+  const days      = document.querySelectorAll('input[name=hday]:checked').length;
+  const ftEl      = document.getElementById('friend_type');
+  const ftype     = ftEl ? ftEl.value : '';
+  const psum      = document.getElementById('psum');
+  const hid       = document.getElementById('computed_total');
+  const dapp      = document.getElementById('discount_applied');
+  const baseLine  = document.getElementById('base-line');
+  const badge     = document.getElementById('friend-badge');
 
   if (!twoOn && !hostOn) {
     psum.style.display = 'none';
@@ -673,11 +690,22 @@ function updatePrice() {
   }
   psum.style.display = 'block';
 
-  let total = 325; let lines = '';
+  let base = 325; let total = 325; let lines = '';
+
   if (twoOn) {
-    total -= 20;
-    lines += '<div class="p-row p-disc"><span>להירשם עם חברה/אחות</span><span>−$20</span></div>';
+    if (ftype === 'sister') {
+      base = 650; total = 610;
+      lines += '<div class="p-row p-disc"><span>הנחת אחות (2 ילדות)</span><span>−$40</span></div>';
+      if (badge) badge.textContent = '-$40';
+    } else if (ftype === 'friend') {
+      total = 305;
+      lines += '<div class="p-row p-disc"><span>הנחת חברה</span><span>−$20</span></div>';
+      if (badge) badge.textContent = '-$20';
+    } else {
+      lines += '<div class="p-row p-disc"><span>חברה/אחות</span><span>בחרי סוג</span></div>';
+    }
   }
+
   if (hostOn && days > 0) {
     const d = Math.round(days * DAILY * 0.25);
     total -= d;
@@ -685,10 +713,12 @@ function updatePrice() {
   } else if (hostOn && days === 0) {
     lines += '<div class="p-row p-disc"><span>הנחת אירוח</span><span>בחרי ימים</span></div>';
   }
+
+  if (baseLine) baseLine.textContent = ftype === 'sister' ? '$650 (שתי ילדות)' : '$325';
   document.getElementById('disc-lines').innerHTML = lines;
   document.getElementById('final').textContent = '$' + total;
   hid.value = '$' + total;
-  dapp.value = twoOn && hostOn ? 'both' : twoOn ? 'friend_sister' : 'hosting';
+  dapp.value = twoOn && hostOn ? 'both' : twoOn ? (ftype || 'friend_sister') : 'hosting';
 }
 
 document.querySelectorAll('input[name=hday]').forEach(cb => cb.addEventListener('change', updatePrice));
