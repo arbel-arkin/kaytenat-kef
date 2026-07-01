@@ -572,7 +572,7 @@ textarea { resize: vertical; min-height: 65px; }
                   </select>
                 </div>
                 <div class="field" style="margin-top:8px;">
-                  <label class="lbl">שם</label>
+                  <label class="lbl" id="c2-name-lbl">שם</label>
                   <input type="text" name="c2_name">
                 </div>
               </div>
@@ -697,10 +697,12 @@ function updatePrice() {
       base = 650; total = 610;
       lines += '<div class="p-row p-disc"><span>הנחת אחות (2 ילדות)</span><span>−$40</span></div>';
       if (badge) badge.textContent = '-$40';
+      const lbl = document.getElementById('c2-name-lbl'); if (lbl) lbl.textContent = 'שם האחות';
     } else if (ftype === 'friend') {
       total = 305;
       lines += '<div class="p-row p-disc"><span>הנחת חברה</span><span>−$20</span></div>';
       if (badge) badge.textContent = '-$20';
+      const lbl = document.getElementById('c2-name-lbl'); if (lbl) lbl.textContent = 'שם החברה';
     } else {
       lines += '<div class="p-row p-disc"><span>חברה/אחות</span><span>בחרי סוג</span></div>';
     }
